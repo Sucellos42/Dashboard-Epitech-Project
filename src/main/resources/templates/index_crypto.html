@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Crypto Currency</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <h1 class="display-4">Crypto Currencies!!!!</h1>
+                    <p class="lead">Just a little project made by Oan Stultjens, with SpringBoot, Bootstrap and consuming <a href="https://coinmarketcap.com/">coinmarketcap</a>'s API.</p>
+                </div>
+            </div>
+
+            <script type="text/javascript" src="https://ssl.gstatic.com/trends_nrtr/1435_RC10/embed_loader.js"></script> <script type="text/javascript"> trends.embed.renderExploreWidget("TIMESERIES", {"comparisonItem":[{"keyword":"bitcoin","geo":"","time":"now 7-d"}],"category":0,"property":""}, {"exploreQuery":"date=now%207-d&q=xrp&hl=en-US&tz=Etc%2FGMT%2B5&tz=Etc%2FGMT%2B5","guestPath":"https://trends.google.com:443/trends/embed/"}); </script>
+
+            <div class="row">
+                <div class="col">
+                    <div th:each="currency : ${allCryptoCurrencies}" class="card shadow-sm p-3 mb-5 bg-white rounded" style="width: 17rem; display: inline-block">
+                        <img style="width: 150px" class="card-img-top mx-auto d-block" th:src="@{'/images/icon/'+${currency.symbol}+'.png'}" alt="Crypto Currency Icon" onerror="this.src='images/icon/default.png'">
+                        <div class="card-body">
+                            <div class="card-title">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="text-center"><span th:text="${currency.name}"/> <small class="text-muted"><span style="font-size: 12px" th:text="'('+${currency.symbol}+')'"/></small></h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="text-center">
+                                            <span class="badge badge-pill" th:classappend="${currency.percent_change_1h} >= 0 ? badge-success : badge-danger" th:text="${currency.percent_change_1h} + '%'"/>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p class="card-text">
+                            <div class="row">
+                                <div class="col">
+                                    Price:
+                                </div>
+                                <div class="col">
+                                    $<span th:text="${currency.price_usd}"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Last 24h:
+                                </div>
+                                <div class="col">
+                                    <span th:class="${currency.percent_change_24h}>=0 ? text-success : text-danger" th:text="${currency.percent_change_24h}+'%'"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Last 7 days:
+                                </div>
+                                <div class="col">
+                                    <span th:class="${currency.percent_change_7d}>=0 ? text-success : text-danger" th:text="${currency.percent_change_7d}+'%'"/>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Removed 'card-footer' -->
+                        <div class=" text-center">
+                            <hr/>
+                            <!--
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#showTrending">
+                                Trending
+                            </button>
+                            -->
+                            <small class="text-muted">Last updated at <span th:text="${#dates.format(new java.util.Date(currency.last_updated*1000),'hh:mm:ss')}"/></small>
+                        </div>
+
+
+                        <div class="modal fade" id="showTrending" tabindex="-1" role="dialog" aria-labelledby="showTrendingLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="showTrendingLabel">Google Trending</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!--<script type="text/javascript" src="https://ssl.gstatic.com/trends_nrtr/1435_RC10/embed_loader.js"></script> <script type="text/javascript"> trends.embed.renderExploreWidget("TIMESERIES", {"comparisonItem":[{"keyword":"${currency.name}","geo":"","time":"now 7-d"}],"category":0,"property":""}, {"exploreQuery":"date=now%207-d&q=xrp&hl=en-US&tz=Etc%2FGMT%2B5&tz=Etc%2FGMT%2B5","guestPath":"https://trends.google.com:443/trends/embed/"}); </script>-->
+                                        test
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<p class="card-text"><small class="text-muted">Last updated at <span th:text="${#dates.format(new java.util.Date(currency.last_updated*1000),'hh:mm:ss')}"/></small></p>-->
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </body>
+</html>
